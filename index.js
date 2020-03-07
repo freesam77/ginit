@@ -3,6 +3,7 @@ const clear = require('clear');
 const figlet = require('figlet');
 const files = require('./lib/files');
 const inquirer = require('./lib/inquirer');
+const github = require('./lib/github');
 
 clear();
 
@@ -20,6 +21,13 @@ if(files.directoryExists('.git')){
 const run = async () => {
     const credentials = await inquirer.askGithubCredentials();
     console.log(credentials)
+
+    let token = github.getStoredGithubToken();
+    if (!token){
+        token = await github.getPersonalAccessToken()
+    }
+
+    console.log(token)
 }
 
 run()
